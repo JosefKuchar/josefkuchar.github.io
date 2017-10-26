@@ -17,9 +17,22 @@ module.exports = {
         new HTMLWebpackPlugin({
             title: 'Josef Kuchař',
             filename: '../index.html',
-            template: path.resolve('src/html/index.ejs')
+            template: path.resolve('src/html/index.html'),
+            minify: {
+                collapseWhitespace: true,
+                minifyCSS: true,
+                minifyJS: true,
+                sortAttributes: true,
+                sortClassName: true
+            }
         }),
-        new ExtractTextPlugin('[name].css')
+        new ExtractTextPlugin('[name].css'),
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            sourceMap: true,
+            comments: false,
+            include: /\.js$/,
+        })
     ],
     module: {
         rules: [
@@ -33,8 +46,13 @@ module.exports = {
                 test: [/\.pcss/],
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: [
-                        { loader: 'css-loader', options: { importLoaders: 1 } },
+                    use: [{ 
+                            loader: 'css-loader',
+                            options: { 
+                                importLoaders: 1,
+                                minimize: true
+                            } 
+                        },
                         'postcss-loader'
                     ]
                 })
