@@ -2,7 +2,7 @@ var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 var board = Array();
 var TILES = 120;
-
+var currentColor = 0;
 var ant = {
     x: 50,
     y: 25,
@@ -25,10 +25,10 @@ for (var y = 0; y < Math.ceil(canvas.height / size); y++) {
 }
 
 function drawBoard() {
-    context.fillStyle = '#000000';
     for (var x = 0; x < board[0].length; x++) {
         for (var y = 0; y < board.length; y++) {
             if (board[y][x]) {
+                context.fillStyle = 'hsl(' + 360 * Math.random() + ',30%,20%)';
                 context.fillRect(x * size, y * size, size, size);
             }
         }
@@ -66,7 +66,7 @@ function move(e) {
     var x = Math.floor(e.clientX / size);
     var y = Math.floor(e.clientY / size);
     board[y][x] = true;
-    context.fillStyle = '#000000';
+    context.fillStyle = 'hsl(' + 360 * Math.random() + ',30%,20%)';
     context.fillRect(x * size, y * size, size, size);
 }
 
@@ -80,8 +80,11 @@ function update() {
     board[ant.y][ant.x] = !board[ant.y][ant.x];
     ant.dir %= 4;
 
-    if (board[ant.y][ant.x])
-        context.fillStyle = '#000000';
+    if (board[ant.y][ant.x]) {
+        context.fillStyle = 'hsl(' + currentColor + ',30%,20%)';
+        currentColor += 0.5;
+        currentColor %= 360
+    }
     else
         context.fillStyle = '#111111';
 
