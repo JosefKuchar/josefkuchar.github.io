@@ -1,1 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Pattaya&display=swap");
 @import "tailwindcss";
+
+@theme {
+    --font-heading: "Pattaya", sans-serif;
+}
